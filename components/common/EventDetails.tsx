@@ -5,8 +5,17 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import { formatDate, formatTime } from "@/lib/utils";
 import { Event } from "@/interfaces/event";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { ROUTES } from "@/config/routes";
 
-export default function EventDetails({ event }: { event: Event }) {
+export default function EventDetails({
+  event,
+  showEdit,
+}: {
+  event: Event;
+  showEdit?: boolean;
+}) {
   if (!event) {
     return (
       <div className="text-center text-muted-foreground py-20">
@@ -60,12 +69,6 @@ export default function EventDetails({ event }: { event: Event }) {
         {/* Right Column */}
         <div className="lg:col-span-1">
           <Card className="p-8 sticky top-6 space-y-6 shadow-lg">
-            <div className="flex items-center justify-between">
-              <Badge variant="secondary" className="capitalize">
-                {event.status}
-              </Badge>
-            </div>
-
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <Calendar className="w-5 h-5 text-primary mt-1" />
@@ -104,6 +107,11 @@ export default function EventDetails({ event }: { event: Event }) {
                 </div>
               </div>
             </div>
+            {showEdit && (
+              <Link href={ROUTES.EDIT_CAMPAIGN(event.id)} className="w-full">
+                <Button className="w-full">Edit Campaign</Button>
+              </Link>
+            )}
           </Card>
         </div>
       </div>

@@ -1,34 +1,27 @@
 "use client";
 
-import { useAuthMe } from "@/hooks/auth/useAuthMe";
-import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
 import { ROUTES } from "@/config/routes";
+import { useAuthStore } from "@/store/auth.store";
+import { useRouter } from "next/navigation";
+import { useEffect, ReactNode } from "react";
 
-interface AuthGuardProps {
-  children: React.ReactNode;
-}
-
-export function AuthGuard({ children }: AuthGuardProps) {
+export default function AuthGuard({ children }: { children: ReactNode }) {
+  const { authUser } = useAuthStore();
   const router = useRouter();
-  const { isLoading, isError } = useAuthMe();
 
   useEffect(() => {
-    if (!isLoading && isError) {
+    if (!authUser) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [isError, isLoading]);
+  }, [authUser, router]);
 
-  if (isLoading) {
+  if (!authUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500">Loading...</p>
       </div>
     );
   }
-
-  if (isError) return null;
 
   return <>{children}</>;
 }

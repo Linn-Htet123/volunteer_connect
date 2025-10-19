@@ -29,7 +29,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           <div className="text-lg font-semibold line-clamp-1 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
             {event.name}
           </div>
-          <span className="text-sm">{event.capacity}</span>
+          <span className="text-xs">{event.capacity}</span>
         </CardTitle>
         <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
           {event.description}

@@ -2,7 +2,7 @@ import { Providers } from "@/providers/Providers";
 import { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { AppSidebar } from "@/components/app-sidebar";
+import Navbar from "@/components/common/Navbar";
 
 export const metadata: Metadata = {
   title: "Volunteer Connect",
@@ -22,9 +22,11 @@ export default function RootLayout({
       <body>
         <Toaster />
         <Providers>
-          <AppSidebar />
-          {/* <SidebarTrigger /> */}
-          <main className="w-full">{children}</main>
+          {/* Since there are only two menu items, a simple top navbar is sufficient */}
+          <div className="flex flex-col w-full">
+            <Navbar />
+            <main className="w-full p-4">{children}</main>
+          </div>
         </Providers>
       </body>
     </html>

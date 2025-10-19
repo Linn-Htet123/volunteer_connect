@@ -1,3 +1,4 @@
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -13,8 +14,11 @@ import { items } from "@/config/menuItems";
 import Link from "next/link";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
+import { useAuthStore } from "@/store/auth.store";
 
 export function AppSidebar() {
+  const { authUser } = useAuthStore();
+  console.log(authUser);
   return (
     <Sidebar>
       <SidebarHeader className="px-3 py-2 border-b border-border/50">
@@ -29,6 +33,7 @@ export function AppSidebar() {
             />
             <span className="text-lg font-semibold tracking-wide text-foreground">
               Volunteer Connect
+              {authUser?.role}
             </span>
           </CardContent>
         </Card>
@@ -38,16 +43,19 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const isShow = item.role === authUser?.role;
+                return isShow ? (
+                  <SidebarMenuItem key={item.title} className="text-base">
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span className="text-base">{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ) : null;
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

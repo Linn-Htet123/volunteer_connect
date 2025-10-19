@@ -5,22 +5,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, Clock, ClipboardList, User } from "lucide-react";
 import { formatDate, formatTime } from "@/lib/utils";
+import TaskStatusDropdown from "../task/TaskStatusDropdown";
+import { TaskStatus } from "@/enum/task";
 
 export default function TaskCard({ task }: { task: any }) {
   return (
     <Card className="p-6 hover:shadow-lg transition-all duration-300 border border-border bg-card">
       <div className="flex items-start justify-between mb-3">
         <h2 className="text-xl font-semibold text-foreground">{task.title}</h2>
-        <Badge
-          variant="secondary"
-          className={`capitalize ${
-            task.status === "Open"
-              ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
-              : "bg-slate-100 text-slate-700 dark:bg-slate-800"
-          }`}
-        >
-          {task.status}
-        </Badge>
+        <TaskStatusDropdown
+          taskId={task.id}
+          currentStatus={task.status as TaskStatus}
+        />
       </div>
 
       <p className="text-sm text-muted-foreground mb-4">{task.description}</p>
@@ -68,13 +64,6 @@ export default function TaskCard({ task }: { task: any }) {
         <p className="text-xs text-muted-foreground">
           Assigned at: {formatDate(task.assigned_at)}
         </p>
-        <Button
-          size="sm"
-          variant="outline"
-          className="rounded-full hover:bg-primary hover:text-white transition-all"
-        >
-          View Details
-        </Button>
       </div>
     </Card>
   );

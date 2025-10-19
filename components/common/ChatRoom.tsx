@@ -10,7 +10,13 @@ import type { Socket } from "socket.io-client";
 import { io } from "socket.io-client";
 import { ENV } from "@/config/env";
 
-const ChatRoom = ({ eventId }: { eventId: number }) => {
+const ChatRoom = ({
+  eventId,
+  eventName,
+}: {
+  eventId: number;
+  eventName?: string;
+}) => {
   const { data, refetch } = useGetChatMessages(eventId);
   const { authUser } = useAuthStore();
   const [message, setMessage] = useState("");
@@ -100,7 +106,7 @@ const ChatRoom = ({ eventId }: { eventId: number }) => {
     >
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3 border-b bg-card">
-        <h1 className="text-lg font-semibold text-foreground">Chat Room</h1>
+        <h1 className="text-lg font-semibold text-foreground">{eventName}</h1>
         <div className="flex items-center gap-2">
           <div
             className={`w-2 h-2 rounded-full ${
@@ -108,7 +114,7 @@ const ChatRoom = ({ eventId }: { eventId: number }) => {
             }`}
           />
           <span className="text-xs text-muted-foreground">
-            {connected ? "Connected" : "Disconnected"}
+            {connected ? "Active" : "Disconnected"}
           </span>
         </div>
       </header>
@@ -151,12 +157,17 @@ const ChatRoom = ({ eventId }: { eventId: number }) => {
                     >
                       <p>{msg.content}</p>
                     </div>
-                    <span className="text-[10px] text-muted-foreground mt-1 px-1">
-                      {new Date(msg.created_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
+                    <div className="flex items-center">
+                      <span className="text-[10px] text-muted-foreground mt-1 px-1">
+                        {msg.sender?.name},
+                      </span>
+                      <span className="text-[10px] text-muted-foreground mt-1 px-1">
+                        {new Date(msg.created_at).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );

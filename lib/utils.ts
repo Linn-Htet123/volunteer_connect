@@ -18,6 +18,20 @@ export const getImageUrl = (image?: string): string => {
     ? image
     : `${ENV.IMAGE_BASE_URL.replace(/\/$/, "")}/${image.replace(/^\//, "")}`;
 };
+export const getFileUrl = (path?: string | null): string => {
+  if (!path) return "";
+
+  const filePath = String(path); // <-- ensure it's a string
+
+  const baseUrl = ENV.IMAGE_BASE_URL || "";
+  if (!baseUrl) {
+    throw new Error("IMAGE_BASE_URL is not defined in ENV");
+  }
+
+  return filePath.startsWith("http")
+    ? filePath
+    : `${baseUrl.replace(/\/$/, "")}/uploads/${filePath.replace(/^\//, "")}`;
+};
 
 export const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {

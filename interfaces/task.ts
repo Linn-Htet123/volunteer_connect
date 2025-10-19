@@ -31,3 +31,24 @@ export interface TaskForVolunteer {
   assigned_at?: string | null;
   volunteer?: Volunteer | null;
 }
+
+export interface AssignedVolunteerEvent {
+  id: string;
+  title: string;
+  start: string; // ISO date string
+  end: string; // ISO date string
+  volunteerIds: number[];
+}
+
+export interface Task {
+  id?: number;
+  event_id: number;
+  title: string;
+  description: string;
+  location: string;
+  created_by: number;
+  start_date: string;
+  end_date: string;
+  created_at?: string | Date;
+  status: TaskStatus;
+}

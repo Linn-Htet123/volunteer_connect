@@ -8,3 +8,9 @@ export interface Volunteer {
   onboarding_status?: string;
   event_volunteers?: any;
 }
+
+export interface VolunteerInEvent {
+  value: number;
+  label: string;
+  status: "Pending" | "Approved" | "Rejected" | "Completed";
+}

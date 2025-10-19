@@ -27,11 +27,12 @@ const EventDetailsPage = () => {
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const { data: event, isLoading, error } = useGetEventDetails(id ?? "");
+
   const { mutateAsync: applyEvent } = useApplyEvent();
   const { authUser } = useAuthStore();
 
   const [open, setOpen] = useState(false);
-  console.log(authUser);
+
   if (isLoading) return <div className="p-10">Loading...</div>;
   if (error || !event) return <div className="p-10">Event not found</div>;
 
@@ -53,9 +54,11 @@ const EventDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background container mx-auto">
       {/* Hero Banner */}
       <Banner
+        location={event.location}
+        startDate={event.start_date}
         title={event.name}
         subtitle={event.description}
         backgroundImage={event.image_url}
@@ -108,12 +111,6 @@ const EventDetailsPage = () => {
           {/* Right Column - Event Info */}
           <div className="lg:col-span-1">
             <Card className="p-8 sticky top-6 space-y-6 shadow-lg">
-              <div className="flex items-center justify-between">
-                <Badge variant="secondary" className="capitalize">
-                  {event.status}
-                </Badge>
-              </div>
-
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <Calendar className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
@@ -185,10 +182,6 @@ const EventDetailsPage = () => {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-
-              <p className="text-xs text-center text-muted-foreground">
-                Registration closes 24 hours before the campaign
-              </p>
             </Card>
           </div>
         </div>

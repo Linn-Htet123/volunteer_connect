@@ -7,7 +7,7 @@ export default function EventsPage() {
   const { data } = useGetEvents();
 
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen container mx-auto">
       <EventsGrid data={data} placeholder="Search events..." />
     </div>
   );
